@@ -2,8 +2,8 @@
 
 using namespace std;
 
-int stairs[302];
-int max[302]; //n번째일때 최대점수
+int score[302]; //현재 계단의 점수
+int sum[302]; //지금까지의 최대 합
 
 int main(void)
 {
@@ -11,14 +11,23 @@ int main(void)
     cin.tie(NULL);
     int n;
     cin >> n;
-    for(int i = 1; i <= n; i++)
+    for(int i = 0; i < n; i++)
     {
-        cin >> stairs[i]; //각 계단의 점수
+        int temp;
+        cin >> temp;
+        score[i] = temp;
     }
-    stairs[0] = 0;
-    for(int i = 1; i <= n; i++)
+
+    sum[0] = score[0];
+    sum[1] = score[0] + score[1];
+    sum[2] = max(score[0] + score[2], score[1] + score[2]);
+
+    for(int i = 3; i < n; i++)
     {
-        
+        sum[i] = score[i] + score[i - 1] + sum[i - 3];
+        sum[i] = max(sum[i], sum[i - 2] + score[i]); 
     }
+    cout << sum[n - 1];
+
     return 0;
 }
